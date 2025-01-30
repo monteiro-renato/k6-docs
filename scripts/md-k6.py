@@ -10,7 +10,6 @@ import json
 import hashlib
 import argparse
 import subprocess
-import textwrap
 import tempfile
 from collections import namedtuple
 
@@ -27,6 +26,14 @@ def has_browser_scenario(script: Script) -> bool:
     # HACK: Check for two keywords in the script to determine
     # if there's a scenario that requires a browser.
     return "browser" in script.text and "chromium" in script.text
+
+
+def print_code(script: Script):
+    """Print the script with line numbers for quick debugging."""
+    lines = script.text.splitlines()
+    for i, line in enumerate(lines):
+        line = f"     {i + 1: >3}  {line}"
+        print(line)
 
 
 def run_k6(script: Script, duration: str | None, verbose: bool) -> None:
@@ -154,6 +161,8 @@ def main() -> None:
     # Additionally, we also skip over any "<!-- eslint-skip -->" comments, to
     # allow developers to use both md-k6 *and* ESLint skip directives in code
     # blocks.
+    #
+    # Some ' *' and '\n+' are added in to skip any present whitespace.
 
     text = re.sub(
         r"<!-- *md-k6:([^ -]+) *-->\n+\s*(<!-- *eslint-skip *-->\n+)?\s*```" + lang,
@@ -217,7 +226,7 @@ def main() -> None:
         print(
             f"Running script #{i} (hash: {script_hash}, options: {script.options}):\n"
         )
-        print(textwrap.indent(script.text, "     "))
+        print_code(script)
         run_k6(script, args.duration, args.verbose)
         print()
 
