@@ -20,6 +20,7 @@ SKIP_ALL = "skipall"
 NO_FAIL = "nofail"
 ENV = "env."
 FIXED_SCENARIOS = "fixedscenarios"
+NO_THRESHOLDS = "nothresholds"
 
 
 def has_browser_scenario(script: Script) -> bool:
@@ -68,7 +69,14 @@ def run_k6(script: Script, duration: str | None, verbose: bool) -> None:
         # `fixedscenarios` option.
         cmd.extend(["-d", duration])
 
+    if NO_THRESHOLDS in script.options:
+        cmd.append("--no-thresholds")
+
     env = {**os.environ, **script.env}
+
+    print("\nExecuting:", " ".join(cmd))
+    if script.env:
+        print("Env:", script.env)
     result = subprocess.run(cmd, env=env)
 
     if result.returncode:
@@ -77,7 +85,7 @@ def run_k6(script: Script, duration: str | None, verbose: bool) -> None:
             with open(logs_file.name) as f:
                 logs = f.read()
 
-            print("logs:")
+            print("Logs:")
             print(logs)
         except Exception:
             # Ignore exceptions if we fail to read the logs
@@ -95,7 +103,7 @@ def run_k6(script: Script, duration: str | None, verbose: bool) -> None:
         line = line.strip()
         parsed = json.loads(line)
         if parsed["level"] == "error":
-            print("error in k6 script execution:", line)
+            print("Error in k6 script execution:", line)
 
             if NO_FAIL not in script.options:
                 exit(1)
@@ -155,17 +163,18 @@ def main() -> None:
     #
     # This is done for the entire Markdown file.
     # After that's done, we can split the text by "```javascript", and parse
-    # each part separately. If a part's first line starts with "$", then we
+    # each part separately. If a part's first line contains a "$", then we
     # know one or more options were specified by the user (such as "skip").
     #
-    # Additionally, we also skip over any "<!-- eslint-skip -->" comments, to
-    # allow developers to use both md-k6 *and* ESLint skip directives in code
-    # blocks.
+    # Additionally, we also skip over any unrelated "<!-- ... -->" comments,
+    # to allow developers to use both md-k6 *and* e.g. ESLint directives in
+    # code blocks. Caveat: the md-k6 comment needs to be the first one, if
+    # multiple comments are present before the code block.
     #
-    # Some ' *' and '\n+' are added in to skip any present whitespace.
+    # Some " *" and "\n+" are added in to skip any present whitespace.
 
     text = re.sub(
-        r"<!-- *md-k6:([^ -]+) *-->\n+\s*(<!-- *eslint-skip *-->\n+)?\s*```" + lang,
+        r"<!-- *md-k6:([^ -]+) *-->\n+\s*(<!--.+-->\n+)?\s*```" + lang,
         "```" + lang + "$" + r"\1",
         text,
     )
@@ -219,12 +228,13 @@ def main() -> None:
             exit(1)
 
     print("Number of code blocks (scripts) read:", len(scripts))
-    print("Number of code blocks (scripts) to run:", len(scripts[start:end]))
+    to_run = len(scripts[start:end])
+    print("Number of code blocks (scripts) to run:", to_run)
 
     for i, script in enumerate(scripts[start:end]):
         script_hash = hashlib.sha256(script.text.encode("utf-8")).hexdigest()[:16]
         print(
-            f"Running script #{i} (hash: {script_hash}, options: {script.options}):\n"
+            f"Running script #{i + 1} (of {to_run}) (hash: {script_hash}, options: {script.options}):\n"
         )
         print_code(script)
         run_k6(script, args.duration, args.verbose)
