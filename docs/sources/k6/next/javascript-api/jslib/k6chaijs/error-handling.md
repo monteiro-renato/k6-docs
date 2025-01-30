@@ -15,13 +15,15 @@ It's not uncommon for performance testers to forget about these cases. We often 
 
 {{< code >}}
 
+<!-- md-k6:skip -->
+
 ```javascript
 import { check, group } from 'k6';
 import http from 'k6/http';
 
 export default function () {
-  group('Fetch a list of public crocodiles', () => {
-    const res = http.get('https://test-api.k6.io/public/crocodiles');
+  group('Fetch a list of pizza names', () => {
+    const res = http.get('https://quickpizza.grafana.com/api/names');
     check(res, {
       'is status 200': (r) => r.status === 200,
       'got more than 5 crocs': (r) => r.json().length > 5,

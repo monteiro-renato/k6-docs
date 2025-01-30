@@ -85,8 +85,8 @@ export const options = {
 };
 
 export default function () {
-  const auth_resp = http.post('https://test-api.k6.io/auth/token/login/', {
-    username: 'test-user',
+  const auth_resp = http.post('http://localhost:3333/api/users/token/login', {
+    username: 'default',
     password: 'supersecure',
   });
 
@@ -94,7 +94,7 @@ export default function () {
     allErrors.add(1, { errorType: 'authError' }); // tagged value creates submetric (useful for making thresholds specific)
   }
 
-  const other_resp = http.get('https://test-api.k6.io/public/crocodiles/1/');
+  const other_resp = http.get('http://localhost:3333/api/json');
   if (other_resp.status >= 400) {
     allErrors.add(1); // untagged value
   }
