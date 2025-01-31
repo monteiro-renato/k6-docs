@@ -64,6 +64,8 @@ Sometimes it's hard to predict how a SUT might fail. For those cases, [describe]
 
 {{< code >}}
 
+<!-- md-k6:nofail -->
+
 ```javascript
 import { describe, expect } from 'https://jslib.k6.io/k6chaijs/4.3.4.3/index.js';
 

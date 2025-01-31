@@ -13,7 +13,7 @@ import subprocess
 import tempfile
 from collections import namedtuple
 
-Script = namedtuple("Script", ["text", "options", "env"])
+Script = namedtuple("Script", ["text", "options", "env", "text_hash"])
 
 SKIP = "skip"
 SKIP_ALL = "skipall"
@@ -203,7 +203,15 @@ def main() -> None:
             key, value = opt.removeprefix(ENV).split("=")
             env[key] = value
 
-        scripts.append(Script(text="\n".join(lines[1:]), options=options, env=env))
+        script_text = "\n".join(lines[1:])
+        scripts.append(
+            Script(
+                text=script_text,
+                options=options,
+                env=env,
+                text_hash=hashlib.sha256(script_text.encode("utf-8")).hexdigest()[:16],
+            )
+        )
 
     if ":" in args.blocks:
         range_parts = args.blocks.split(":")
@@ -232,9 +240,8 @@ def main() -> None:
     print("Number of code blocks (scripts) to run:", to_run)
 
     for i, script in enumerate(scripts[start:end]):
-        script_hash = hashlib.sha256(script.text.encode("utf-8")).hexdigest()[:16]
         print(
-            f"Running script #{i + 1} (of {to_run}) (hash: {script_hash}, options: {script.options}):\n"
+            f"Running script #{i + 1} (of {to_run}) (hash: {script.text_hash}, options: {script.options}):\n"
         )
         print_code(script)
         run_k6(script, args.duration, args.verbose)
