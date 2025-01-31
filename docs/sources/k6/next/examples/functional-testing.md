@@ -44,6 +44,7 @@ This test goes through several steps. It creates a new user account, authenticat
 
 {{< code >}}
 
+<!-- md-k6:skip -->
 <!-- eslint-skip -->
 
 ```javascript
