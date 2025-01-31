@@ -29,7 +29,7 @@ Batch multiple HTTP requests together, to issue them in parallel over multiple T
 import { Httpx, Get } from 'https://jslib.k6.io/httpx/0.1.0/index.js';
 import { describe } from 'https://jslib.k6.io/expect/0.0.4/index.js';
 
-const session = new Httpx({ baseURL: 'http://localhost:3333' });
+const session = new Httpx({ baseURL: 'https://quickpizza.grafana.com' });
 
 session.addHeader('Authorization', 'token abcdef0123456789');
 

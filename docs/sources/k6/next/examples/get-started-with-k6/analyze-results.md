@@ -115,7 +115,7 @@ Create a new script named "tagged-login.js", and add a custom tag to it.
 import http from 'k6/http';
 
 export default function () {
-  const url = 'http://localhost:3333';
+  const url = 'https://quickpizza.grafana.com';
   const payload = JSON.stringify({
     username: 'test_case',
     password: '12345678',

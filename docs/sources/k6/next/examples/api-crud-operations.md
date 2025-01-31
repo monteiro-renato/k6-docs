@@ -52,7 +52,7 @@ function randomString(length, charset = '') {
 const USERNAME = `${randomString(10)}@example.com`; // Set your own email or `${randomString(10)}@example.com`;
 const PASSWORD = 'secret';
 
-const BASE_URL = 'http://localhost:3333';
+const BASE_URL = 'https://quickpizza.grafana.com';
 
 // Register a new user and retrieve authentication token for subsequent API requests
 export function setup() {
@@ -172,7 +172,7 @@ export const options = {
 const USERNAME = `user${randomIntBetween(1, 100000)}@example.com`; // Set your own email;
 const PASSWORD = 'secret';
 
-const session = new Httpx({ baseURL: 'http://localhost:3333' });
+const session = new Httpx({ baseURL: 'https://quickpizza.grafana.com' });
 
 // Register a new user and retrieve authentication token for subsequent API requests
 export function setup() {

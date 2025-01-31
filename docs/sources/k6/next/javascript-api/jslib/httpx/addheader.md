@@ -19,7 +19,7 @@ weight: 21
 ```javascript
 import { Httpx } from 'https://jslib.k6.io/httpx/0.1.0/index.js';
 
-const session = new Httpx({ baseURL: 'http://localhost:3333' });
+const session = new Httpx({ baseURL: 'https://quickpizza.grafana.com' });
 
 session.addHeader('Authorization', 'token abcdef0123456789');
 

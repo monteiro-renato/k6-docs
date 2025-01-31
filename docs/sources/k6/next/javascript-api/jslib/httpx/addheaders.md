@@ -26,7 +26,7 @@ session.addHeaders({
 });
 
 export default function () {
-  session.get('http://localhost:3333/api/ratings');
+  session.get('https://quickpizza.grafana.com/api/ratings');
 }
 ```
 

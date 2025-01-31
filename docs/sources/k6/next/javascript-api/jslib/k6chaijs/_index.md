@@ -46,7 +46,7 @@ import { describe, expect } from 'https://jslib.k6.io/k6chaijs/4.3.4.3/index.js'
 
 export default function testSuite() {
   describe('Fetch a list of pizza names', () => {
-    const response = http.get('http://localhost:3333/api/names');
+    const response = http.get('https://quickpizza.grafana.com/api/names');
 
     expect(response.status, 'response status').to.equal(200);
     expect(response).to.have.validJsonBody();

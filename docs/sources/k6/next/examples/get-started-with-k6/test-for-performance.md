@@ -64,7 +64,7 @@ export const options = {
 
 export default function () {
   // define URL and request body
-  const url = 'http://localhost:3333/api/users/token/login';
+  const url = 'https://quickpizza.grafana.com/api/users/token/login';
   const payload = JSON.stringify({
     username: 'default',
     password: '1234',
@@ -270,7 +270,7 @@ export const options = {
 
 export default function () {
   // define URL and request body
-  const url = 'http://localhost:3333/api/users/token/login';
+  const url = 'https://quickpizza.grafana.com/api/users/token/login';
   const payload = JSON.stringify({
     username: 'default',
     password: '1234',

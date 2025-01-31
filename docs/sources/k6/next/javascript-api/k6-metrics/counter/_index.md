@@ -85,7 +85,7 @@ export const options = {
 };
 
 export default function () {
-  const auth_resp = http.post('http://localhost:3333/api/users/token/login', {
+  const auth_resp = http.post('https://quickpizza.grafana.com/api/users/token/login', {
     username: 'default',
     password: 'supersecure',
   });
@@ -94,7 +94,7 @@ export default function () {
     allErrors.add(1, { errorType: 'authError' }); // tagged value creates submetric (useful for making thresholds specific)
   }
 
-  const other_resp = http.get('http://localhost:3333/api/json');
+  const other_resp = http.get('https://quickpizza.grafana.com/api/json');
   if (other_resp.status >= 400) {
     allErrors.add(1); // untagged value
   }

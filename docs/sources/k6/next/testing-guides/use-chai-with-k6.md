@@ -198,7 +198,7 @@ export default function () {
 
   describe('crocodiles API', () => {
     describe('should fetch a list of public crocodiles', () => {
-      const response = http.get('http://localhost:3333/api/ratings', { headers: headers });
+      const response = http.get('https://quickpizza.grafana.com/api/ratings', { headers: headers });
 
       expect(response.status, 'response status').to.equal(200);
       expect(response).to.have.validJsonBody();
@@ -212,14 +212,16 @@ export default function () {
         pizza_id: 1,
       };
 
-      const response = http.get('http://localhost:3333/api/ratings/1', { headers: headers });
+      const response = http.get('https://quickpizza.grafana.com/api/ratings/1', {
+        headers: headers,
+      });
 
       expect(response.status, 'status').to.equal(200);
       expect(JSON.parse(response.body), 'response body').to.deep.equal(expected);
     });
 
     describe('should respond with status 404, when an invalid rating id is provided', () => {
-      const response = http.get('http://localhost:3333/api/ratings/12312123123123', {
+      const response = http.get('https://quickpizza.grafana.com/api/ratings/12312123123123', {
         headers: headers,
       });
 

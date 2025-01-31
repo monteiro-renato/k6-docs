@@ -25,7 +25,7 @@ export const options = {
 
 export default function () {
   describe('Hello world!', () => {
-    const response = http.get('http://localhost:3333/api/ratings', {
+    const response = http.get('https://quickpizza.grafana.com/api/ratings', {
       headers: { Authorization: 'Token abcdef0123456789' },
     });
 
@@ -64,7 +64,7 @@ export let options = {
 };
 
 let session = new Httpx({
-  baseURL: 'http://localhost:3333',
+  baseURL: 'https://quickpizza.grafana.com',
   headers: { Authorization: 'Token abcdef0123456789' },
 });
 

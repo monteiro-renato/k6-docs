@@ -60,7 +60,7 @@ const USERNAME = `user${randomIntBetween(1, 100000)}@example.com`; // random ema
 const PASSWORD = 'secretpassword';
 
 const session = new Httpx({
-  baseURL: 'http://localhost:3333',
+  baseURL: 'https://quickpizza.grafana.com',
   headers: {
     'User-Agent': 'My custom user agent',
   },
