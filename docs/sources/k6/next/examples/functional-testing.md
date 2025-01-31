@@ -175,10 +175,11 @@ Here's an auto-generated k6 test script showcasing all examples from the [Chaijs
 
 {{< code >}}
 
+<!-- md-k6:skip -->
 <!-- eslint-skip -->
 
 ```javascript
-import { describe, expect, chai } from 'https://jslib.k6.io/k6chaijs/4.3.4.3/index.js';
+import chai, { describe, expect } from 'https://jslib.k6.io/k6chaijs/4.5.0.1/index.js';
 
 chai.config.aggregateChecks = false;
 chai.config.logFailures = true;
