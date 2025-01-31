@@ -77,7 +77,12 @@ def run_k6(script: Script, duration: str | None, verbose: bool) -> None:
     print("\nExecuting:", " ".join(cmd))
     if script.env:
         print("Env:", script.env)
-    result = subprocess.run(cmd, env=env)
+
+    try:
+        result = subprocess.run(cmd, env=env)
+    except KeyboardInterrupt:
+        print("Execution cancelled by user.")
+        result = subprocess.CompletedProcess(None, returncode=1)
 
     if result.returncode:
         print("k6 returned non-zero status:", result.returncode)
